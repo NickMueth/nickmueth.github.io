@@ -1,0 +1,501 @@
+<html>
+	<!--
+	Nick Mueth
+	IS245-740 Web Dev & Security
+	Term Project Spring 2018
+	5/8/18
+
+	To whomever grades this:
+	
+	Let me explain all the Donald Trump stuff.
+	
+	In the project instructions, I caught on that whoever wrote the instructions was saying that the President was opening the doors and running the game. After getting the base parts of the project down, I thought it was too good of an opportunity to pass up being able to take advantage of that small detail, and make Trump the centerpiece of the game.
+	
+	So among changes to the project I made (while still following the instructions and getting it done right):
+	-Added Donald Trump as the host
+	-Added dynamic pictures and text that would change based on a random number generator paired with phrase and image arrays.
+	-Added animation to the "Win a car" title, that would allow it to flash across the page and have the background change colors
+	-Added timers to all the countdowns to visualize the countdown
+	
+	Thank you for putting up with the weirdness that this project is, and my extra additions that I enjoyed adding in.
+	I hope it makes you laugh as much as it made me laugh.
+	
+	Nick Mueth
+	S01825412
+	
+	
+	PS: To answer the question at the end of the instructions, after playing it 10 times in a row, I won 6 times, and it was pretty much 50/50 for switch vs. stay
+	-->
+	
+	<head>
+		<link rel="stylesheet" href = "styles.css">
+		<title>Win a Car!</title>
+	</head>
+	<body>
+		<div id="header_div" style="width:100%;height:auto">
+			<div id="text_div" style="left:-400px">
+				<h1 id="winacar" style="width:auto">Win A Car!</h1>
+			</div>
+		</div>
+		<div style="float:left;width:60%;height:auto">
+			<div id="pics" style="width:100%">
+				<img id="door1" src="files/door.jpg" onclick="chooseDoor(1)" style="width:30%;float:left">
+				<img id="door2" src="files/door.jpg" onclick="chooseDoor(2)" style="width:30%;float:left">
+				<img id="door3" src="files/door.jpg" onclick="chooseDoor(3)" style="width:30%;float:left">
+			</div>
+		</div>
+		<div style="overflow:hidden;float:right;width:40%;height:auto;margin-top:0px">
+			<h2 style="margin-top:0px">Score</h2>
+			<table>
+				<tr>
+					<td id="stay"></td>
+					<th>Stay</th>
+				</tr>
+				<tr>
+					<td id="switch"></td>
+					<th>Switch</th>
+				</tr>
+				<tr>
+					<td id="total"></td>
+					<th>Total</th>
+				</tr>
+			</table>
+			<h3 id="hintText"><span id="countdownTimer">5</span></h3>
+			<img id="trump" src="files/winACar.jpg" style="display:block;width:75%;margin-left:auto;margin-right:auto">
+					
+		</div>
+		
+		<script type="text/javascript">
+			/*--------------------------------*
+			 *------------VARIABLES-----------*
+			 *--------------------------------*/
+			
+			//Linking elements to variable names
+			var hintText = document.getElementById("hintText");
+			
+			var door1 = document.getElementById('door1');
+			var door2 = document.getElementById('door2');
+			var door3 = document.getElementById('door3');
+			
+			var trump = document.getElementById('trump');
+			
+			door1.style.pointerEvents="none";
+			door2.style.pointerEvents="none";
+			door3.style.pointerEvents="none";
+			
+			var stayText = document.getElementById('stay');
+			var switchText = document.getElementById('switch');
+			var totalText = document.getElementById('total');
+			
+			hintText.innerHTML="Welcome to Win A Car!";
+			winACar();
+			
+			setTimeout(function(){
+				hintText.innerHTML="Presenting our host: President Trump!";
+			},3000);
+			
+			setTimeout(function(){
+				trump.src="files/trump_pointing_3.jpg";
+				hintText.innerHTML="Hey! Do you wanna win a car? It's a YUGE deal!";
+			},6000);
+			
+			setTimeout(function(){
+				hintText.innerHTML = "<i>Here's how you do it...</i>";
+				trump.src="files/trump_thinking_1.jpg";
+			},10000);
+			setTimeout(startGame,14000);
+			
+			//RunNumber aids in deciding what stage to go to based on how many clicks have already been passed.
+			var runNumber = 1;
+			
+			//firstDoorChosen is a global variable passed between functions that is paired with whatever door is picked first
+			var firstDoorChosen = 0;
+			
+			//SheepDoor is a global variable paired with the door that opens as a sheep the first time around
+			var sheepDoor = 0;
+			
+			//Counters for scorekeeping
+			var stayNum = 0;
+			var switchNum = 0;
+			var totalNum = 0;
+
+			stayText.innerHTML = stayNum;
+			switchText.innerHTML = switchNum;
+			totalText.innerHTML = totalNum;
+			
+			/*--------------------------------*
+			 *-------------ARRAYS-------------*
+			 *--------------------------------*/
+			var chooseDoorExp=[
+					"Ok, we're playing again! Choose a door!",
+					"Alright, you know the drill, pick a door!",
+					"Life has many doors, but right now you need to select one of these!",
+					"I'm great at deals, but our deal now is that you need to open one of these doors!",
+					"I wouldn't mind having one of these doors in our wall, pick the door we should use",
+					"Clicks are going in, sheep are coming out, we need to pick another door!"
+				];
+				
+			var happyText=[
+					"GREAT JOB!! You won the car!",
+					"That was truly presidential",
+					"We're gonna win, win, win, and we're not stopping!",
+					"My whole life is about winning. I don't lose often. I almost never lose.",
+					"Too many people don't care about winning today, I call them \"losers\".",
+					"When sheep behind doors challenge you, fight back, be brutal, be tough."
+				];
+				
+			var sadText=[
+					"I don't like losers. Or sheep.",
+					"Sometimes by losing a battle you find a new way to win the war. Keep trying!",
+					"We have losers. We have sheep. And we have people that don't have it.",
+					"Well, you lost, but at least you get to take the sheep home...",
+					"Anyone can deal with victory. Only the mighty can bear defeat.",
+					"I hate to tell you this: Sheep? They're losers."
+				];
+				
+			var happy=[
+					"files/trump_happy.jpg",
+					"files/trump_happy_2.jpg",
+					"files/trump_happy_3.jpg"
+				];
+				
+			var sad=[
+					"files/trump_sad.jpg",
+					"files/trump_sad_2.jpg",
+					"files/trump_sad_3.jpg"
+				];
+			
+			var pointing=[
+					"files/trump_pointing_1.jpg",
+					"files/trump_pointing_2.jpg",
+					"files/trump_pointing_3.jpg"
+				];
+				
+			/*--------------------------------*
+			 *------------FUNCTIONS-----------*
+			 *--------------------------------*/
+			
+			//Start the game
+			function startGame(){
+				hintText.innerHTML = "Just Choose a Door!";
+				trump.src="files/trump_pointing_1.jpg";
+				
+				door1.style.pointerEvents="auto";
+				door2.style.pointerEvents="auto";
+				door3.style.pointerEvents="auto";
+			}
+			
+			//Random number chooser
+			function randNum123(){
+				var randNum=Math.floor(Math.random()*3);
+				return randNum;
+			}
+			
+			//Click event from the images, works using an if-elseif-else statement to see what run number this is, then chose a direction to go based on that
+			function chooseDoor(n){
+				//If this is the first run through of the chooseDoor event, the cases in the switch statement go to countdownToSheep function, passing the door number as an argument
+				if(runNumber == 1){
+					switch(n){
+						case 1:
+							firstDoorChosen=1;
+							door1.style.backgroundColor="red";
+							countdownToSheep(firstDoorChosen);
+							break;
+						case 2:
+							firstDoorChosen=2;
+							door2.style.backgroundColor="red";
+							countdownToSheep(firstDoorChosen);
+							break;
+						case 3:
+							firstDoorChosen=3
+							door3.style.backgroundColor="red";
+							countdownToSheep(firstDoorChosen);
+							break;
+					}
+				}
+				//Otherwise if this is the second time, change the door colors back to their initial color on click, and go to stayOrSwitch, passing the door selected the second time
+				else{
+					door1.style.backgroundColor="initial";
+					door2.style.backgroundColor="initial";
+					door3.style.backgroundColor="initial";
+
+					switch(n){
+						case 1:
+							door1.style.backgroundColor="red";
+							stayOrSwitch(n);
+							break;
+						case 2:
+							door2.style.backgroundColor="red";
+							stayOrSwitch(n);
+							break;
+						case 3:
+							door3.style.backgroundColor="red";
+							stayOrSwitch(n);
+							break;
+					}
+				}
+			}
+			
+			//Show text, wait 5 seconds, then go to revealFirstSheep
+			function countdownToSheep(firstDoorChosen){
+				//Disallow clicking while revealing sheep
+				door1.style.pointerEvents="none";
+				door2.style.pointerEvents="none";
+				door3.style.pointerEvents="none";
+				
+				var timeleft=5;
+				hintText.textContent = "Now I will open an unchosen door in..."+timeleft;
+				var countdownStop = setInterval(function(){
+					timeleft--;
+					hintText.textContent = "Now I will open an unchosen door in..."+timeleft;
+					if(timeleft<=0)
+						clearInterval(countdownStop);
+				},1000);
+				setTimeout(revealFirstSheep,6000,firstDoorChosen);
+			}
+			
+			//pick a random number called sheepDoor
+			//if sheepDoor is the same as n, pick another number until they are not the same
+			function revealFirstSheep(firstDoorChosen){
+				//random number to find sheepDoor, runs while sheepDoor and firstDoorChosen are the same
+				do{
+					sheepDoor = Math.floor(Math.random()*3)+1;
+				}while(sheepDoor==firstDoorChosen);
+				
+				//Changes an image depending on what number sheepDoor is
+				if(sheepDoor==1){
+					door1.src="files/sheep.jpg";
+					door1.style.pointerEvents="none";
+					door2.style.pointerEvents="auto";
+					door3.style.pointerEvents="auto";
+				}
+				else if(sheepDoor == 2){
+					door2.src = "files/sheep.jpg";
+					door1.style.pointerEvents="auto";
+					door2.style.pointerEvents="none";
+					door3.style.pointerEvents="auto";
+				}
+				else{
+					door3.src = "files/sheep.jpg";
+					door1.style.pointerEvents="auto";
+					door2.style.pointerEvents="auto";
+					door3.style.pointerEvents="none";
+				}
+				trump.src="files/trump_laughing.jpg";
+				hintText.textContent="Look! A sheep! Good thing you didn't pick that door!";
+				setTimeout(function(){
+					hintText.textContent="Now you can keep your door, or select the other unopened one...";
+					trump.src="files/trump_waiting.jpg";
+				},3500);
+				//increase runNumber to 2
+				runNumber++;
+			}
+			
+			//stayOrSwitch is the deciding function for winning or losing the game. Details described at each level
+			function stayOrSwitch(n){
+				//Disable further clicking of the images
+				door1.style.pointerEvents="none";
+				door2.style.pointerEvents="none";
+				door3.style.pointerEvents="none";
+
+				//if-else for the door they chose when asked to stay or switch
+				//if they choose to stay, stayNum goes up by one.
+				if(n==firstDoorChosen){
+					stayNum++;
+					stayText.innerHTML = stayNum;
+				}
+				//if they choose to switch, switchNum goes up by one.
+				else{
+					switchNum++;
+					switchText.innerHTML = switchNum;
+				}
+				
+				hintText.innerHTML="<b><i>Now to see our results...</i></b>";
+				trump.src="files/trump_waiting.jpg";
+				setTimeout(winCheck,4000,n);
+			}
+			
+			//Check if you won and display appropriate images and text
+			function winCheck(n){
+				var door=n;
+				
+				//Random number either 0 or 1 to decide if they win or not
+				var winner = Math.floor(Math.random()*2);
+				
+				//Random numbers for choosing trump expression images and text
+				var randomNum=randNum123();
+				var randomExp= Math.floor(Math.random()*6);
+				
+				//if the random number is a 1, they win, and their door changes to the car 
+				if(winner==1){
+					//door1 car, door2 & 3 sheep
+					if(door==1){
+						door1.src="files/car.jpg";
+						door2.src="files/sheep.jpg";
+						door3.src="files/sheep.jpg";
+					}
+					//door 1 and 3 sheep, door 2 car
+					else if(door==2){
+						door1.src="files/sheep.jpg";
+						door2.src="files/car.jpg";
+						door3.src="files/sheep.jpg";
+					}
+					//door 3 car, door 2 and 1 sheep
+					else{
+						door1.src="files/sheep.jpg";
+						door2.src="files/sheep.jpg";
+						door3.src="files/car.jpg";
+					}
+					//Trump happy expression image
+					trump.src=happy[randomNum];
+					hintText.innerHTML=happyText[randomExp];
+					totalNum++;
+					totalText.innerHTML=totalNum;
+				}
+				//if the random number is a 0, they lose, and their door changes to the sheep
+				else{
+					if(door==1){
+						if(sheepDoor==2){
+							door1.src="files/sheep.jpg";
+							door2.src="files/sheep.jpg";
+							door3.src="files/car.jpg";
+						}
+						else{
+							door1.src="files/sheep.jpg";
+							door2.src="files/car.jpg";
+							door3.src="files/sheep.jpg";
+						}
+					}
+					else if(door==2){
+						if(sheepDoor==1){
+							door1.src="files/sheep.jpg";
+							door2.src="files/sheep.jpg";
+							door3.src="files/car.jpg";
+						}
+						else{
+							door1.src="files/car.jpg";
+							door2.src="files/sheep.jpg";
+							door3.src="files/sheep.jpg";
+						}
+					}
+					else{
+						if(sheepDoor==2){
+							door1.src="files/car.jpg";
+							door2.src="files/sheep.jpg";
+							door3.src="files/sheep.jpg";
+						}
+						else{
+							door1.src="files/sheep.jpg";
+							door2.src="files/car.jpg";
+							door3.src="files/sheep.jpg";
+						}
+					}
+					trump.src=sad[randomNum];
+					hintText.innerHTML=sadText[randomExp];
+				}
+				//Gives 4 seconds to bask in glory till countdown for next game begins
+				setTimeout(nextGameCountdown,5000);
+			}
+			
+			//Countdowns involving setTimeouts for the next game
+			function nextGameCountdown(){
+				var timeleft=5;
+				trump.src="files/trump_time.jpg";
+				hintText.textContent="Let's play again! Next game starting in..."+timeleft;
+				var countdownStop = setInterval(function(){
+					hintText.textContent="Let's play again! Next game starting in..."+timeleft;
+					timeleft--;
+					if(timeleft<=0)
+						clearInterval(countdownStop);
+				},1000);
+				setTimeout(function(){hintText.textContent="Playing again!";},6000);
+				setTimeout(playAgain,10000);
+			}	
+			
+			//Resets the playing board
+			function playAgain(){
+				//
+				var randNum=Math.floor(Math.random()*chooseDoorExp.length);
+			
+				runNumber=1;
+				door1.style.backgroundColor="initial";
+				door2.style.backgroundColor="initial";
+				door3.style.backgroundColor="initial";
+				
+				door1.src="files/door.jpg";
+				door2.src="files/door.jpg";
+				door3.src="files/door.jpg";
+				
+				door1.style.pointerEvents="auto";
+				door2.style.pointerEvents="auto";
+				door3.style.pointerEvents="auto";
+				
+				hintText.innerHTML=chooseDoorExp[randNum];
+				
+				var randomNum=randNum123();
+				trump.src=pointing[randomNum];
+			}
+			
+			
+			
+			/*--------------------------------*
+			 *-----------ANIMATIONS-----------*
+			 *--------------------------------*/			
+			
+			//set variables by element ID
+			var winACarText = document.getElementById('winacar');
+			var winACarDiv = document.getElementById('text_div');
+			var headerDiv = document.getElementById('header_div');
+			
+			//Values
+			var skewAmt = 180;
+			var pos=-400;
+			var flashNum = 3;
+			
+			var textWidth = winACarText.offsetWidth;
+			var headerCenter = headerDiv.offsetWidth;
+			
+			headerCenter = headerCenter/2;
+			
+			//The main function to make the animations happen
+			function winACar(){
+				var stopSlant = setInterval(slantWords, 25);
+				var stopMove = setInterval(moveWords,5);
+			
+				
+				//The tranformation of words
+				function slantWords(){
+					winACarText.style.transform="skewX("+skewAmt+"deg)";
+					skewAmt=skewAmt-5;
+					if(skewAmt<=140)
+						clearInterval(stopSlant);
+				}
+				
+				function moveWords(){
+					pos=pos+10;
+					winACarDiv.style.left=pos+'px';
+					if(pos>=(headerCenter-175))
+						clearInterval(stopMove);
+				}
+				
+				function blueBackground(){
+					headerDiv.style.backgroundColor = "blue";
+				}
+				function whiteBackground(){
+					headerDiv.style.backgroundColor = "white";
+				}
+				
+				var stopFlash = setInterval(function(){
+					setTimeout(blueBackground,250);
+					setTimeout(whiteBackground,500);
+					if(flashNum<=0)
+						clearInterval(stopFlash);
+					flashNum--;
+				},500);
+			}
+			
+		</script>
+		
+	</body>
+</html>
+	
