@@ -1,0 +1,61 @@
+h1{
+	color: red;
+	font-family: Verdana;
+	font-size: 60px;
+	margin: 10px 0px 10px 0px;
+}
+
+h2{
+	color: green;
+	font-family: Verdana;
+	text-align:center;
+}
+
+h3{
+	color: blue;
+	font-family: Verdana;
+	text-align:center;
+	font-size: 1.5em;
+}
+
+p{
+	font-family:Verdana;
+}
+
+img{
+	padding-left:5px;
+	padding-right:5px;
+}
+
+img:hover{
+	opacity:0.7;
+}
+
+#trump:hover{
+	opacity:1;
+}
+
+#text_div{
+	position:relative;
+	margin: 0px 0px 0px 0px;
+}
+
+#header_div{
+	overflow:hidden;
+}
+
+td{
+	border: 1px solid black;
+	width: 100%;
+	padding:15px;
+	text-align:center;
+	font-size:1.5em;
+	font-family:Verdana;
+}
+
+th{
+	color:green;
+	font-family:Verdana;
+	font-size: 1.5em;
+	padding:15px;
+}
