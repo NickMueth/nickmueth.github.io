@@ -36,11 +36,55 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
-        <div ng-app="">
-            <p>Name : <input type="text" ng-model="name" /></p>
-            <h1>Hello {{name}}</h1>
+    <div class="container" style="word-wrap: normal">
+        <div ng-app="app1">
+            <div>
+                <p>Name : <input type="text" ng-model="name" /></p>
+                <h1>Hello {{name}}</h1>
+            </div>
+            <div ng-controller="myCtrl">
+
+                <button class="btn btn-primary" ng-click="count = count + 1">Click me</button>
+
+                <h2>{{ count+name }}</h2>
+
+            </div>
+            <div ng-controller="ctrl">
+
+                <button class="btn btn-danger" ng-click="openAlert()">no click me</button>
+                <button class="btn btn-secondary" ng-click="btn2_Click()">click me :)</button>
+                <button class="btn btn-success" onclick="btn3_Click()">CLICK ME</button>
+            </div>
         </div>
+        
+        <script>
+            var colors = ["green", "red", "blue", "pink", "brown", "black", "yellow", "orange", "purple"];
+            var app = angular.module('app1', []);
+            app.controller('myCtrl', function ($scope) {
+                $scope.count = 0;
+            });
+
+            app.controller('ctrl', function ($scope) {
+                $scope.color = 0;
+                $scope.openAlert = function () {
+                    alert("TEST");
+                }
+                $scope.btn2_Click = function () {
+                    var randomNum = randNum123();
+                    document.body.style.backgroundColor = colors[randomNum];
+                }
+            });
+
+            function btn3_Click() {
+                var randomNum = randNum123();
+                document.body.style.backgroundColor = colors[randomNum];
+            }
+
+            function randNum123() {
+                var randNum = Math.floor(Math.random() * 9);
+                return randNum;
+            }
+        </script>
     </div>
 </body>
 </html>
