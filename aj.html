@@ -47,11 +47,11 @@
         </div>
     </nav>
     <div class="container">
-        <div id="header_div" style="width:100%;height:auto">
-            <div id="text_div" style="left:-400px">
-                <h1 id="happyBday" style="width:auto">Happy Birthday AJ!</h1>
-            </div>
-        </div>
+        <audio id="ajMusic" preload="auto" loop src="files/music/Alive.mp3">
+            <p>your browser doesn't support this</p>
+        </audio>
+        <h1 class="text-center">HAPPY BIRTHDAY AJ</h1>
+
         <div class="row">
             <div class="col-md-4">
                 <img src="files/aj/aj1.jpg" alt="AJ" />
@@ -65,82 +65,40 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <img src="files/aj/aj4.jpg" alt="AJ" />
+                <img src="files/aj/aj4.JPG" alt="AJ" />
             </div>
             <div class="col-md-4">
                 <img src="files/aj/aj5.jpg" alt="AJ" />
             </div>
             <div class="col-md-4">
-                <img src="files/aj/aj6.jpg" alt="AJ" />
+                <img src="files/aj/aj6.JPG" alt="AJ" />
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
-                <img src="files/aj/aj7.jpg" alt="AJ" />
+                <img src="files/aj/aj7.JPG" alt="AJ" />
             </div>
             <div class="col-md-4">
-                <img src="files/aj/aj8.jpg" alt="AJ" />
+                <img src="files/aj/aj8.JPG" alt="AJ" />
             </div>
             <div class="col-md-4">
-                <img src="files/aj/aj9.jpg" alt="AJ" />
+                <img src="files/aj/aj9.JPG" alt="AJ" />
             </div>
         </div>
     </div>
     <script>
-        //set variables by element ID
-        var happyBdayText = document.getElementById('happyBDay');
-        var happyBdayDiv = document.getElementById('text_div');
-        var headerDiv = document.getElementById('header_div');
+        var colors = ["green", "red", "blue", "pink", "brown", "black", "yellow", "orange", "purple"];
+        var i = 1;
 
-        //Values
-        var skewAmt = 180;
-        var pos = -400;
-        var flashNum = 3;
-
-        var textWidth = happyBdayText.offsetWidth;
-        var headerCenter = headerDiv.offsetWidth;
-
-        headerCenter = headerCenter / 2;
-
-        //The main function to make the animations happen
-        function happyBirthday() {
-            var stopSlant = setInterval(slantWords, 25);
-            var stopMove = setInterval(moveWords, 5);
+        window.setInterval(function () {
+            document.body.style.backgroundColor = colors[i % 9];
+            i++;
+        }, 100);
 
 
-            //The tranformation of words
-            function slantWords() {
-                happyBdayText.style.transform = "skewX(" + skewAmt + "deg)";
-                skewAmt = skewAmt - 5;
-                if (skewAmt <= 140)
-                    clearInterval(stopSlant);
-            }
-
-            function moveWords() {
-                pos = pos + 10;
-                happyBdayDiv.style.left = pos + 'px';
-                if (pos >= (headerCenter - 175))
-                    clearInterval(stopMove);
-            }
-
-            function blueBackground() {
-                headerDiv.style.backgroundColor = "blue";
-            }
-            function whiteBackground() {
-                headerDiv.style.backgroundColor = "white";
-            }
-
-            var stopFlash = setInterval(function () {
-                setTimeout(blueBackground, 250);
-                setTimeout(whiteBackground, 500);
-                if (flashNum <= 0)
-                    clearInterval(stopFlash);
-                flashNum--;
-            }, 500);
-        }
+        var audio = document.getElementById('ajMusic');
+        audio.currentTime = 33;
+        audio.play();
     </script>
-    <div class="jumbotron" style="margin-bottom:0">
-        <p>Footer</p>
-    </div>
 </body>
 </html>
