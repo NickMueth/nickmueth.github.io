@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -16,15 +16,6 @@
 
     <!--Angular.js-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-    <style>
-        img{
-            height:inherit;
-            width:inherit;
-            border-radius: 5%;
-            padding: 5px;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -47,54 +38,36 @@
         </div>
     </nav>
     <div class="container">
-        <h1 class="text-center">Welcome to the puppy page.</h1>
-        <div class="row">
-            <div class="col-md-4">
-                <img src="files/pups/pup1.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
-                <img src="files/pups/pup2.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
-                <img src="files/pups/pup3.jpg" alt="Doggo" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <img src="files/pups/pup4.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
-                <img src="files/pups/pup5.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
-                <img src="files/pups/pup6.jpg" alt="Doggo" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <img src="files/pups/pup7.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
-                <img src="files/pups/pup8.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
-                <img src="files/pups/pup9.jpg" alt="Doggo" />
-            </div>
-        </div>
-		<div class="row">
-            <div class="col-md-4">
-                <img src="files/pups/pup10.jpg" alt="Doggo" />
-            </div>
-            <div class="col-md-4">
+        <h3 class="alert alert-danger"><strong>WARNING</strong> This page make flashing colors that are extremely dizzying. Click at your own risk.<small>Also the stop button might be broken...</small></h3>
+        
+        <button class="btn btn-success" onclick="rave = setInterval(raveFunc, 50)">Start</button>
+        <button class="btn btn-danger" onclick="clearInterval(rave); rave = null;">Stop</button>
+        <script>
+            var rave = null;
+            var colors = ["green", "red", "blue", "pink", "brown", "black", "yellow", "orange", "purple"];
+            var i = 1;
 
-            </div>
-            <div class="col-md-4">
+            var startBtn = document.getElementsByClassName("btn-success");
+            var stopBtn = document.getElementsByClassName("btn-danger");
 
-            </div>
-        </div>
-    </div>
-    <div class="jumbotron" style="margin-bottom:0">
-        <p>Footer</p>
+            if (rave == null) {
+                startBtn.style.pointerEvents = "auto";
+                stopBtn.style.pointerEvents = "none";
+
+            }
+            else {
+                startBtn.style.pointerEvents = "none";
+                stopBtn.style.pointerEvents = "auto";
+            }
+
+            function raveFunc() {
+                document.body.style.backgroundColor = colors[i % 9];
+                i++;
+            }
+
+
+
+        </script>
     </div>
 </body>
 </html>
