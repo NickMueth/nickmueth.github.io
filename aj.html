@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Imported Stylesheets-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!--Bootstrap-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!--Angular.js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="termProject.html">Click me!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="angularStuff.html">Angular Tests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="puppies.html">Pupper Page</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="header_div" style="width:100%;height:auto">
+            <div id="text_div" style="left:-400px">
+                <h1 id="happyBday" style="width:auto">Happy Birthday AJ!</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="files/aj/aj1.jpg" alt="AJ" />
+            </div>
+            <div class="col-md-4">
+                <img src="files/aj/aj2.jpg" alt="AJ" />
+            </div>
+            <div class="col-md-4">
+                <img src="files/aj/aj3.jpg" alt="AJ" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="files/aj/aj4.jpg" alt="AJ" />
+            </div>
+            <div class="col-md-4">
+                <img src="files/aj/aj5.jpg" alt="AJ" />
+            </div>
+            <div class="col-md-4">
+                <img src="files/aj/aj6.jpg" alt="AJ" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="files/aj/aj7.jpg" alt="AJ" />
+            </div>
+            <div class="col-md-4">
+                <img src="files/aj/aj8.jpg" alt="AJ" />
+            </div>
+            <div class="col-md-4">
+                <img src="files/aj/aj9.jpg" alt="AJ" />
+            </div>
+        </div>
+    </div>
+    <script>
+        //set variables by element ID
+        var happyBdayText = document.getElementById('happyBDay');
+        var happyBdayDiv = document.getElementById('text_div');
+        var headerDiv = document.getElementById('header_div');
+
+        //Values
+        var skewAmt = 180;
+        var pos = -400;
+        var flashNum = 3;
+
+        var textWidth = happyBdayText.offsetWidth;
+        var headerCenter = headerDiv.offsetWidth;
+
+        headerCenter = headerCenter / 2;
+
+        //The main function to make the animations happen
+        function happyBirthday() {
+            var stopSlant = setInterval(slantWords, 25);
+            var stopMove = setInterval(moveWords, 5);
+
+
+            //The tranformation of words
+            function slantWords() {
+                happyBdayText.style.transform = "skewX(" + skewAmt + "deg)";
+                skewAmt = skewAmt - 5;
+                if (skewAmt <= 140)
+                    clearInterval(stopSlant);
+            }
+
+            function moveWords() {
+                pos = pos + 10;
+                happyBdayDiv.style.left = pos + 'px';
+                if (pos >= (headerCenter - 175))
+                    clearInterval(stopMove);
+            }
+
+            function blueBackground() {
+                headerDiv.style.backgroundColor = "blue";
+            }
+            function whiteBackground() {
+                headerDiv.style.backgroundColor = "white";
+            }
+
+            var stopFlash = setInterval(function () {
+                setTimeout(blueBackground, 250);
+                setTimeout(whiteBackground, 500);
+                if (flashNum <= 0)
+                    clearInterval(stopFlash);
+                flashNum--;
+            }, 500);
+        }
+    </script>
+    <div class="jumbotron" style="margin-bottom:0">
+        <p>Footer</p>
+    </div>
+</body>
+</html>
