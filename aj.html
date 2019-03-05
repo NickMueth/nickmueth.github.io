@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body onload="loadAudio">
+<body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a class="navbar-brand" href="index.html">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -96,24 +96,12 @@
         window.setInterval(function () {
             document.body.style.backgroundColor = colors[i % 9];
             i++;
-        }, 200);
+        }, 100);
 
-        function loadAudio() {
-            var audio = document.getElementById('ajMusic');
-            audio.currentTime = 33;
-            if (audio.canPlayType("audio/mp3")) {
-                audio.src = "files/music/Alive.mp3";
-                audio.play();
-            }
-            else if (audio.canPlayType("audio/ogg")) {
-                audio.src = "files/music/Alive.ogg";
-                audio.play();
-            }
-            else {
-                audio.src = "files/music/Alive.wav";
-                audio.play();
-            }
-        }
+
+        var audio = document.getElementById('ajMusic');
+        audio.currentTime = 33;
+        audio.play();
     </script>
 </body>
 </html>
